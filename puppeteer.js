@@ -1,1 +1,1 @@
-// todo 
+console.log('puppeteer demo activated')
