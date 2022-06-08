@@ -20,6 +20,7 @@ const viewports = [
         console.log({vp});
         await page.setViewport(vp);
         await page.goto('https://github.com/Duclearc');
+        await page.screenshot({ path: `./screenshots/${i}.jpg`});
     }
 
     setTimeout(async () => {
