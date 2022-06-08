@@ -1,0 +1,10 @@
+{
+    "imageType": "jpg",
+    "screenshotsPath": "./screenshots",
+    "targetUrl": "https://github.com/Duclearc",
+    "viewports": [
+        { "device": "mobile", "width": 390, "height": 844 }, 
+        { "device": "tablet", "width": 820, "height": 1180 },
+        { "device": "desktop", "width": 1536, "height": 960 }
+    ]
+}

@@ -1,10 +1,13 @@
 const ppt = require('puppeteer');
+const { imageType, screenshotsPath, targetUrl, viewports } = require('./config.json');
 
-const viewports = [
-    { width: 390, height: 844 },  // iPhone 12
-    { width: 820, height: 1180 }, // iPad Air
-    { width: 1536, height: 960 }  // MacBook Pro 16"
-];
+/** Returns the current date formatted as `YYYY.MM.DD-HH:mm:ss` */
+function getCurrentFormattedDate() {
+    const today = new Date();
+    const date = today.toISOString().split('T')[0].replace(/-/g,'.'); // YYYY.MM.DD
+    const time = today.toLocaleTimeString(); // HH:mm:ss
+    return `${date}-${time}`;
+}
 
 (async () => {
     // oppening browser
@@ -17,14 +20,18 @@ const viewports = [
     // going through viewports
     for (let i = 0; i < viewports.length; i++) {
         const vp = viewports[i];
-        console.log({vp});
         await page.setViewport(vp);
-        await page.goto('https://github.com/Duclearc');
-        await page.screenshot({ path: `./screenshots/${i}.jpg`});
+        await page.goto(targetUrl);
+
+        const website = (
+            page.url()
+            .match(/^(?:https?:\/\/)?(?:[^@\/\n]+@)?(?:www\.)?([^:\/\n]+)/igm)[0]
+            .replace(/(^\w+:|^)\/\//, '')
+        ); // domain.com
+
+        await page.screenshot({ path: `${screenshotsPath}/${getCurrentFormattedDate()}_${website}_${vp.device}.${imageType}` });
     }
 
-    setTimeout(async () => {
-        // closing browser
-        await browser.close()
-    }, 3000);
+    // closing browser
+    await browser.close();
 })()
